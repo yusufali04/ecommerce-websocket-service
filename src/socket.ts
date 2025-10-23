@@ -1,9 +1,14 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
+import config from "config";
 
 const wsServer = createServer();
 // Move origin value to env/config
-const io = new Server(wsServer, { cors: { origin: 'http://localhost:5173' } });
+const allowedOrigins: string[] = [
+    config.get("frontend.clientUI"),
+    config.get("frontend.adminUI"),
+];
+const io = new Server(wsServer, { cors: { origin: allowedOrigins } });
 
 io.on("connection", (socket) => {
     console.log("Client connected: ", socket.id);
