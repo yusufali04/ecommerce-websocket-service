@@ -9,7 +9,7 @@ const startServer = async () => {
   try {
     broker = createMessageBroker();
     await broker.connectConsumer();
-    await broker.consumeMessage(["order"], false);
+    await broker.consumeMessage([config.get("kafka.orderTopic")], false);
     const PORT = config.get("server.port");
     ws.wsServer.listen(PORT, () => {
       console.log(`Listening on port: ${PORT}`)
